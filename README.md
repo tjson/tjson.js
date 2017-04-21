@@ -1,6 +1,7 @@
 # tjson-js [![npm version][npm-version]][npm-link] [![Build Status][build-image]][build-link] [![MIT licensed][license-image]][license-link]
 
-JavaScript implementation of TJSON as an npm module
+JavaScript-compatible implementation of Tagged JSON (TJSON), written in
+TypeScript.
 
 [npm-version]: https://badge.fury.io/js/tjson-js.svg
 [npm-link]: https://www.npmjs.com/package/tjson-js

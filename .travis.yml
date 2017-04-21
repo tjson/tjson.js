@@ -1,5 +1,10 @@
 language: node_js
 node_js:
-  - "6"
-  - "6.1"
   - "7"
+
+matrix:
+  fast_finish: true
+
+branches:
+  only:
+    - master
