@@ -77,7 +77,7 @@ TJSON.parse('{"some-string-data:s":"Hello, world!","some-time-ago:t":"2017-04-22
 //→ Object { some-string-data: "Hello, world!", some-time-ago: Sat Apr 22 2017 13:40:53 GMT-0700 (PDT) }
 ```
 
-### `TJSON.stringify()`
+### TJSON.stringify()
 
 The `TJSON.stringify()` method converts a JavaScript value to a TJSON string.
 This method is analogous to JavaScript's built-in [JSON.stringify()] method.
