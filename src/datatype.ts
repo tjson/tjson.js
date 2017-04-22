@@ -2,9 +2,7 @@ export class DataType {
   static TAGS: any = {};
 
   // Register a new TJSON datatype (used internally only)
-  public static register(type: DataType) {
-    let tag = type.tag();
-
+  public static register(type: DataType, tag = type.tag()) {
     if (tag in DataType.TAGS) {
       throw new Error(`type already registered for tag: '${tag}'`);
     }

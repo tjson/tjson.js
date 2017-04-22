@@ -1,8 +1,8 @@
 import { ScalarType } from "../datatype";
 
-export class ValueType extends ScalarType {
+export class BooleanType extends ScalarType {
   tag(): string {
-    return "v";
+    return "b";
   }
 
   decode(bool: any): boolean {

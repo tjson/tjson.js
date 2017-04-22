@@ -34,7 +34,8 @@ import TJSON from "../index";
 
     // Examples that encode as Base64 by default
     "Base16 Binary Data",
-    "Base32 Binary Data"
+    "Base32 Binary Data",
+    "Base64url Binary Data"
   ];
 
   static examples: Example[];
