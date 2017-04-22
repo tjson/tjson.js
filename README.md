@@ -74,7 +74,7 @@ pass `false`.
 
 ```js
 TJSON.parse('{"some-string-data:s":"Hello, world!","some-time-ago:t":"2017-04-22T20:40:53.182Z"}');
-// → Object { some-string-data: "Hello, world!", some-time-ago: Sat Apr 22 2017 13:40:53 GMT-0700 (PDT) }
+//→ Object { some-string-data: "Hello, world!", some-time-ago: Sat Apr 22 2017 13:40:53 GMT-0700 (PDT) }
 ```
 
 ### `TJSON.stringify()`
