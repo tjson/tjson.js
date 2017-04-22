@@ -9,7 +9,7 @@ export class IntType extends ScalarType {
     return "i";
   }
 
-  convert(str: any): number {
+  decode(str: any): number {
     if (!/^-?\d+$/.test(str)) {
       throw new Error(`invalid signed int: '${str}'`);
     }
@@ -29,7 +29,7 @@ export class UintType extends ScalarType {
     return "u";
   }
 
-  convert(str: any): number {
+  decode(str: any): number {
     if (!/^-?\d+$/.test(str)) {
       throw new Error(`invalid unsigned int: '${str}'`);
     }

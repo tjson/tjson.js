@@ -1,6 +1,22 @@
 import { DataType, NonScalarType } from "../datatype";
+import TJSON from "../../index";
 
 export class SetType extends NonScalarType {
+  public static identifyType(set: Set<any>): DataType {
+    let innerType: DataType | null = null;
+
+    for (let elem of Array.from(set)) {
+      let t = TJSON.identifyType(elem);
+      if (innerType === null) {
+        innerType = t;
+      } else if (innerType.tag() !== t.tag()) {
+        throw new Error(`set contains heterogenous types: ${set}`);
+      }
+    }
+
+    return new SetType(innerType);
+  }
+
   constructor(innerType: DataType | null) {
     super(innerType);
   }
@@ -13,7 +29,7 @@ export class SetType extends NonScalarType {
     }
   }
 
-  convert(array: any[]): object {
+  decode(array: any[]): object {
     if (this.innerType === null) {
       if (array.length > 0) {
         throw new Error("no inner type specified for non-empty array");
@@ -25,7 +41,7 @@ export class SetType extends NonScalarType {
     let elements = [];
 
     for (let elem of array) {
-      elements.push(this.innerType.convert(elem));
+      elements.push(this.innerType.decode(elem));
     }
 
     let set = new Set(elements);
@@ -35,5 +51,9 @@ export class SetType extends NonScalarType {
     }
 
     return set;
+  }
+
+  encode(set: Set<any>): any[] {
+    return Array.from(set);
   }
 }

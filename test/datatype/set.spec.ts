@@ -6,6 +6,6 @@ import { SetType } from "../../src/datatype/set";
 @suite class SetTypeTest {
   @test "parses arrays"() {
     let intType = DataType.get("i");
-    expect((new SetType(intType)).convert(["1", "2", "3"])).to.eql(new Set([1, 2, 3]));
+    expect((new SetType(intType)).decode(["1", "2", "3"])).to.eql(new Set([1, 2, 3]));
   }
 }

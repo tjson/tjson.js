@@ -5,11 +5,15 @@ export class FloatType extends ScalarType {
     return "f";
   }
 
-  convert(value: any): number {
+  decode(value: any): number {
     if (typeof value !== "number") {
       throw new Error(`invalid floating point: ${value}`);
     }
 
+    return value;
+  }
+
+  encode(value: any): number {
     return value;
   }
 }

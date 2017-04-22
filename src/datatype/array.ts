@@ -1,6 +1,22 @@
 import { DataType, NonScalarType } from "../datatype";
+import TJSON from "../../index";
 
 export class ArrayType extends NonScalarType {
+  public static identifyType(array: any[]): DataType {
+    let innerType: DataType | null = null;
+
+    for (let elem of array) {
+      let t = TJSON.identifyType(elem);
+      if (innerType === null) {
+        innerType = t;
+      } else if (innerType.tag() !== t.tag()) {
+        throw new Error(`array contains heterogenous types: [${array}]`);
+      }
+    }
+
+    return new ArrayType(innerType);
+  }
+
   constructor(innerType: DataType | null) {
     super(innerType);
   }
@@ -13,7 +29,7 @@ export class ArrayType extends NonScalarType {
     }
   }
 
-  convert(array: any[]): object {
+  decode(array: any[]): object {
     if (this.innerType === null) {
       if (array.length > 0) {
         throw new Error("no inner type specified for non-empty array");
@@ -25,9 +41,13 @@ export class ArrayType extends NonScalarType {
     let result = [];
 
     for (let elem of array) {
-      result.push(this.innerType.convert(elem));
+      result.push(this.innerType.decode(elem));
     }
 
     return result;
+  }
+
+  encode(array: any[]): any[] {
+    return array;
   }
 }
