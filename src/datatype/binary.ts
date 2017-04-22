@@ -9,7 +9,7 @@ export class Binary16Type extends ScalarType {
   }, []);
 
   tag(): string {
-    return "b16";
+    return "d16";
   }
 
   decode(hex: any): Uint8Array {
@@ -49,7 +49,7 @@ export class Binary32Type extends ScalarType {
   }, []);
 
   tag(): string {
-    return "b32";
+    return "d32";
   }
 
   decode(b32: any): Uint8Array {
@@ -111,7 +111,8 @@ export class Binary64Type extends ScalarType {
   }, []);
 
   tag(): string {
-    return "b64";
+    // Default to using "d" for Base64, per SHOULD in spec
+    return "d";
   }
 
   decode(b64: any): Uint8Array {

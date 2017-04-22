@@ -5,23 +5,24 @@ import { DataType } from "./src/datatype";
 import { ArrayType } from "./src/datatype/array";
 import { SetType } from "./src/datatype/set";
 import { Binary16Type, Binary32Type, Binary64Type } from "./src/datatype/binary";
-import { IntType, UintType } from "./src/datatype/integer";
+import { BooleanType } from "./src/datatype/boolean";
 import { FloatType } from "./src/datatype/float";
+import { IntType, UintType } from "./src/datatype/integer";
 import { ObjectType } from "./src/datatype/object";
 import { StringType } from "./src/datatype/string";
 import { TimestampType } from "./src/datatype/timestamp";
-import { ValueType } from "./src/datatype/value";
 
 DataType.register(new Binary16Type);
 DataType.register(new Binary32Type);
 DataType.register(new Binary64Type);
+DataType.register(new Binary64Type, "d64");
+DataType.register(new BooleanType);
 DataType.register(new FloatType);
 DataType.register(new IntType);
 DataType.register(new UintType);
 DataType.register(new ObjectType);
 DataType.register(new StringType);
 DataType.register(new TimestampType);
-DataType.register(new ValueType);
 
 export default class TJSON {
   // Parse a UTF-8 encoded TJSON string
@@ -87,14 +88,14 @@ export default class TJSON {
   // Identify the TJSON DataType for a given value
   public static identifyType(value: any): DataType {
     if (typeof value === "object") {
-      if (value instanceof Uint8Array) {
-        return DataType.get("b64");
-      } else if (value instanceof Date) {
-        return DataType.get("t");
+      if (Array.isArray(value)) {
+        return ArrayType.identifyType(value);
+      } else if (value instanceof Uint8Array) {
+        return DataType.get("d");
       } else if (value instanceof Set) {
         return SetType.identifyType(value);
-      } else if (Array.isArray(value)) {
-        return ArrayType.identifyType(value);
+      } else if (value instanceof Date) {
+        return DataType.get("t");
       } else {
         return DataType.get("O");
       }
@@ -103,7 +104,7 @@ export default class TJSON {
     } else if (typeof value === "number") {
       return DataType.get("f");
     } else if (typeof value === "boolean") {
-      return DataType.get("v");
+      return DataType.get("b");
     } else {
       throw new Error(`unsupported TJSON value: ${value}`);
     }
