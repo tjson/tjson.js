@@ -62,9 +62,9 @@ TJSON.parse(tjsonString[, decodeUTF8 = true])
 
 #### Parameters
 
-**tjsonString**: The string to parse, containing data serialized as [TJSON].
+* **tjsonString**: The string to parse, containing data serialized as [TJSON].
 
-**decodeUTF8**: instructs whether or not to first decode the TJSON string from
+* **decodeUTF8**: instructs whether or not to first decode the TJSON string from
 UTF-8 before parsing it. By default UTF-8 will be automatically decoded to the
 engine's internal string representation (e.g. UCS-2). If you would like to skip
 automatic encoding conversions (e.g. because they happen at the I/O boundary)
@@ -90,13 +90,13 @@ TJSON.stringify(value[, space = 0[, encodeUTF8 = true]])
 
 #### Parameters
 
-**value**: The value to convert to a TJSON string.
+* **value**: The value to convert to a TJSON string.
 
-**space**: a [String] or [Number] object that's to insert white space into the
+* **space**: a [String] or [Number] object that's to insert white space into the
 output JSON string for readability purposes. For more information, please see
 the [JSON.stringify()] documentation.
 
-**encodeUTF8**: instructs whether or not to encode the resulting document as
+* **encodeUTF8**: instructs whether or not to encode the resulting document as
 UTF-8. The TJSON specification requires all confirming documents are encoded
 as UTF-8. If you would like to skip automatic encoding conversions (e.g.
 because they happen at the I/O boundary) pass `false`.
