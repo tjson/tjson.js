@@ -13,7 +13,7 @@ export class Binary16Type extends ScalarType {
   }
 
   decode(hex: any): Uint8Array {
-    if (hex.length % 2 != 0 || !(/^[a-z0-9]*$/).test(hex)) {
+    if (hex === null || hex.length % 2 != 0 || !(/^[a-z0-9]*$/).test(hex)) {
       throw new Error(`invalid b16: ${hex}`);
     }
 
