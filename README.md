@@ -23,7 +23,7 @@ is ordinarily possible in JSON:
       "float-example:f": 0.42,
       "int-example:i": "42",
       "timestamp-example:t": "2016-11-06T22:27:34Z",
-      "value-example:v": true
+      "boolean-example:v": true
     }
   ],
   "set-example:S<i>": [1, 2, 3]
@@ -31,6 +31,17 @@ is ordinarily possible in JSON:
 ```
 
 [TJSON]: https://www.tjson.org
+
+## Help and Discussion
+
+Have questions? Want to suggest a feature or change?
+
+* [TJSON Gitter]: web-based chat
+* [TJSON Google Group]: join via web or email ([tjson+subscribe@googlegroups.com])
+
+[TJSON Gitter]: https://gitter.im/tjson/Lobby
+[TJSON Google Group]: https://groups.google.com/forum/#!forum/tjson
+[tjson+subscribe@googlegroups.com]: mailto:tjson+subscribe@googlegroups.com
 
 ## Installation
 
