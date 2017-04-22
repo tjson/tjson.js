@@ -7,10 +7,10 @@
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg
 [license-link]: https://github.com/tjson/tjson-ruby/blob/master/LICENSE.txt
 
-JavaScript-compatible implementation of [Tagged JSON (TJSON)][TJSON], written
-in TypeScript.
+JavaScript-compatible implementation of [Tagged JSON (TJSON)][TJSON],
+written in TypeScript.
 
-TJSON is a microformat which supplements JSON with a set of type tags in the
+[TJSON] is a microformat which supplements JSON with a set of type tags in the
 keys of objects, allowing it to represent a wider range of data types than
 is ordinarily possible in JSON:
 
@@ -29,6 +29,8 @@ is ordinarily possible in JSON:
   "set-example:S<i>": [1, 2, 3]
 }
 ```
+
+[TJSON]: https://www.tjson.org
 
 ## Installation
 
