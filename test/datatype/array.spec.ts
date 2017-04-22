@@ -6,6 +6,6 @@ import { ArrayType } from "../../src/datatype/array";
 @suite class ArrayTypeTest {
   @test "parses arrays"() {
     let intType = DataType.get("i");
-    expect((new ArrayType(intType)).convert(["1", "2", "3"])).to.eql([1, 2, 3]);
+    expect((new ArrayType(intType)).decode(["1", "2", "3"])).to.eql([1, 2, 3]);
   }
 }

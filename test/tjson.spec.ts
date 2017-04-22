@@ -4,8 +4,8 @@ import { Example, ExampleLoader } from "./example_loader";
 import TJSON from "../index";
 
 @suite class TJSONSpec {
-  // Test cases we're not compliant with due to JavaScript limitations
-  static readonly FAILING_CASES = [
+  // Examples we don't decode correctly (i.e. due to JavaScript limitations)
+  static readonly SKIPPED_DECODE_CASES = [
     // JSON.parse ignores repeated member names
     // TODO: write our own JSON parser? o_O
     "Invalid Object with Repeated Member Names",
@@ -20,6 +20,23 @@ import TJSON from "../index";
     "Unsigned Integer Range Test"
   ];
 
+  // Examples we don't encode correctly (i.e. due to JavaScript limitations)
+  static readonly SKIPPED_ENCODE_CASES = [
+    // Pending https://tc39.github.io/proposal-integer/
+    "Array of integers",
+    "Array of objects",
+    "Multidimensional array of integers",
+    "Set of integers",
+    "Set of objects",
+    "Set containing arrays of integers",
+    "Signed Integer",
+    "Unsigned Integer",
+
+    // Examples that encode as Base64 by default
+    "Base16 Binary Data",
+    "Base32 Binary Data"
+  ];
+
   static examples: Example[];
 
   static before() {
@@ -28,7 +45,7 @@ import TJSON from "../index";
 
   @test "parsing draft-tjson-examples.txt"() {
     for (let example of TJSONSpec.examples) {
-      if (TJSONSpec.FAILING_CASES.some((name) => example.name == name)) {
+      if (TJSONSpec.SKIPPED_DECODE_CASES.some((name) => example.name == name)) {
         continue;
       }
 
@@ -37,6 +54,25 @@ import TJSON from "../index";
       } else {
         expect(() => TJSON.parse(example.body)).to.throw(Error);
       }
+    }
+  }
+
+  @test "serializing draft-tjson-examples.txt"() {
+    for (let example of TJSONSpec.examples) {
+      if (TJSONSpec.SKIPPED_DECODE_CASES.some((name) => example.name == name)) {
+        continue;
+      }
+
+      if (TJSONSpec.SKIPPED_ENCODE_CASES.some((name) => example.name == name)) {
+        continue;
+      }
+
+      if (!example.success) {
+        continue;
+      }
+
+      let deserialized = TJSON.parse(example.body);
+      expect(TJSON.stringify(deserialized)).to.eq(example.body.replace(": ", ":"));
     }
   }
 }

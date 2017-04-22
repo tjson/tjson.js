@@ -1,27 +1,47 @@
 import { ScalarType } from "../datatype";
 
 export class Binary16Type extends ScalarType {
+  // RFC 4648 Base16 alphabet (lower case)
+  static readonly BASE16_ALPHABET = "0123456789abcdef";
+  static readonly LOOKUP_TABLE = Binary16Type.BASE16_ALPHABET.split("").reduce((arr: number[], char) => {
+    arr[char.charCodeAt(0)] = Binary16Type.BASE16_ALPHABET.indexOf(char);
+    return arr;
+  }, []);
+
   tag(): string {
     return "b16";
   }
 
-  convert(hex: any): Uint8Array {
-    if (!(/^[a-z0-9]+$/).test(hex)) {
+  decode(hex: any): Uint8Array {
+    if (hex.length % 2 != 0 || !(/^[a-z0-9]*$/).test(hex)) {
       throw new Error(`invalid b16: ${hex}`);
     }
 
-    let result = [];
+    let result = new Uint8Array(hex.length / 2);
 
     for (let i = 0; i < hex.length; i += 2) {
-      result.push(parseInt(hex.substr(i, 2), 16));
+      result[i >> 1] = Binary16Type.LOOKUP_TABLE[hex.charCodeAt(i)] << 4 |
+        Binary16Type.LOOKUP_TABLE[hex.charCodeAt(i + 1)];
     }
 
     return new Uint8Array(result);
   }
+
+  encode(bytes: Uint8Array): string {
+    let result = new Array(bytes.length * 2);
+    let alphabet = Binary16Type.BASE16_ALPHABET;
+
+    for (let i = 0, j = 0; i < bytes.length; i++ , j += 2) {
+      result[j] = alphabet[bytes[i] >> 4];
+      result[j + 1] = alphabet[bytes[i] & 0xF];
+    }
+
+    return result.join("");
+  }
 }
 
 export class Binary32Type extends ScalarType {
-  // RFC 4648 Base32 alphabet
+  // RFC 4648 Base32 alphabet (lower case)
   static readonly BASE32_ALPHABET = "abcdefghijklmnopqrstuvwxyz234567";
   static readonly LOOKUP_TABLE = Binary32Type.BASE32_ALPHABET.split("").reduce((arr: number[], char) => {
     arr[char.charCodeAt(0)] = Binary32Type.BASE32_ALPHABET.indexOf(char);
@@ -32,8 +52,8 @@ export class Binary32Type extends ScalarType {
     return "b32";
   }
 
-  convert(b32: any): Uint8Array {
-    if (b32 === null || !(/^[a-z0-9]+$/).test(b32)) {
+  decode(b32: any): Uint8Array {
+    if (b32 === null || !(/^[a-z0-9]*$/).test(b32)) {
       throw new Error(`invalid b32: ${b32}`);
     }
 
@@ -56,6 +76,30 @@ export class Binary32Type extends ScalarType {
 
     return result;
   }
+
+  encode(bytes: Uint8Array): string {
+    let outputLength = Math.ceil(bytes.length / 5) * 8;
+    let result = new Array(outputLength);
+    let alphabet = Binary32Type.BASE32_ALPHABET;
+
+    for (let i = 0, j = 0; i < bytes.length; i += 5, j += 8) {
+      result[j] = alphabet[((bytes[i] & 0xF8) >> 3)];
+      result[j + 1] = alphabet[(((bytes[i] & 0x07) << 2) | ((bytes[i + 1] & 0xC0) >> 6))];
+      result[j + 2] = alphabet[((bytes[i + 1] & 0x3E) >> 1)];
+      result[j + 3] = alphabet[(((bytes[i + 1] & 0x01) << 4) | ((bytes[i + 2] & 0xF0) >> 4))];
+      result[j + 4] = alphabet[(((bytes[i + 2] & 0x0F) << 1) | (bytes[i + 3] >> 7))];
+      result[j + 5] = alphabet[((bytes[i + 3] & 0x7C) >> 2)];
+      result[j + 6] = alphabet[(((bytes[i + 3] & 0x03) << 3) | ((bytes[i + 4] & 0xE0) >> 5))];
+      result[j + 7] = alphabet[(bytes[i + 4] & 0x1F)];
+    }
+
+    let offset = bytes.length % 5;
+    if (offset != 0) {
+      outputLength -= 8 - ((offset % 5) * 2) + (offset >= 3 ? 1 : 0);
+    }
+
+    return result.slice(0, outputLength).join("");
+  }
 }
 
 export class Binary64Type extends ScalarType {
@@ -70,8 +114,8 @@ export class Binary64Type extends ScalarType {
     return "b64";
   }
 
-  convert(b64: any): Uint8Array {
-    if (b64 === null || !(/^[A-Za-z0-9\-_]+$/).test(b64)) {
+  decode(b64: any): Uint8Array {
+    if (b64 === null || !(/^[A-Za-z0-9\-_]*$/).test(b64)) {
       throw new Error(`invalid b64: ${b64}`);
     }
 
@@ -92,5 +136,28 @@ export class Binary64Type extends ScalarType {
     }
 
     return result;
+  }
+
+  encode(bytes: Uint8Array): string {
+    let outputLength = Math.ceil(bytes.length / 3) * 4;
+
+    let result = new Array(outputLength);
+    let alphabet = Binary64Type.BASE64_ALPHABET;
+
+    for (let i = 0, j = 0; i < bytes.length; i += 3, j += 4) {
+      let value = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
+
+      result[j] = alphabet[(value >> 18) & 63];
+      result[j + 1] = alphabet[(value >> 12) & 63];
+      result[j + 2] = alphabet[(value >> 6) & 63];
+      result[j + 3] = alphabet[value & 63];
+    }
+
+    let offset = bytes.length % 3;
+    if (offset != 0) {
+      outputLength -= 3 - offset;
+    }
+
+    return result.slice(0, outputLength).join("");
   }
 }

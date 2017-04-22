@@ -1,4 +1,5 @@
 import { NonScalarType } from "../datatype";
+import TJSON from "../../index";
 
 export class ObjectType extends NonScalarType {
   constructor() {
@@ -9,11 +10,15 @@ export class ObjectType extends NonScalarType {
     return "O";
   }
 
-  convert(obj: any): object {
-    if(typeof obj !== "object") {
+  decode(obj: any): object {
+    if (typeof obj !== "object") {
       throw new Error(`not a valid object: ${obj}`);
     }
 
+    return obj;
+  }
+
+  encode(obj: any): object {
     return obj;
   }
 }

@@ -25,8 +25,8 @@ DataType.register(new ValueType);
 
 export default class TJSON {
   // Parse a UTF-8 encoded TJSON string
-  public static parse(tjsonString: string) {
-    let decodedString = utf8.decode(tjsonString);
+  public static parse(tjsonString: string, decodeUTF8 = true) {
+    let decodedString = decodeUTF8 ? utf8.decode(tjsonString) : tjsonString;
     let result = JSON.parse(decodedString, TJSON.reviver);
 
     if (Array.isArray(result)) {
@@ -36,34 +36,13 @@ export default class TJSON {
     return result;
   }
 
-  // Look for objects in parsed JSON, extract their types, and convert their values
-  static reviver(_key: any, value: any) {
-    // Ignore non-objects (including arrays). Transform them on the next pass
-    if (typeof value !== "object" || Array.isArray(value)) {
-      return value;
-    }
-
-    let result: any = {};
-
-    Object.keys(value).forEach(key => {
-      let tagResult = key.match(/^(.*):([A-Za-z0-9\<]+[\>]*)$/);
-
-      if (tagResult === null) {
-        throw new Error(`failed to parse tag: ${key}`);
-      }
-
-      let untaggedKey = tagResult[1];
-      let tag = tagResult[2];
-      let childValue = value[key];
-
-      let type = TJSON.parseType(tag);
-      result[untaggedKey] = type.convert(childValue);
-    });
-
-    return result;
+  // Convert a value to TJSON
+  public static stringify(value: any, space: number | string = 0, encodeUTF8 = true): string {
+    let result = JSON.stringify(value, TJSON.replacer, space);
+    return encodeUTF8 ? utf8.encode(result) : result;
   }
 
-  // Parse a TJSON type signature into the corresponding DateTime object
+  // Parse a TJSON type signature into the corresponding DataType object
   public static parseType(tag: string): DataType {
     // Object
     if (tag == "O") {
@@ -103,5 +82,78 @@ export default class TJSON {
     } else {
       throw new Error(`invalid tag: "${tag}"`);
     }
+  }
+
+  // Identify the TJSON DataType for a given value
+  public static identifyType(value: any): DataType {
+    if (typeof value === "object") {
+      if (value instanceof Uint8Array) {
+        return DataType.get("b64");
+      } else if (value instanceof Date) {
+        return DataType.get("t");
+      } else if (value instanceof Set) {
+        return SetType.identifyType(value);
+      } else if (Array.isArray(value)) {
+        return ArrayType.identifyType(value);
+      } else {
+        return DataType.get("O");
+      }
+    } else if (typeof value === "string") {
+      return DataType.get("s");
+    } else if (typeof value === "number") {
+      return DataType.get("f");
+    } else if (typeof value === "boolean") {
+      return DataType.get("v");
+    } else {
+      throw new Error(`unsupported TJSON value: ${value}`);
+    }
+  }
+
+  // Look for objects in parsed JSON, extract their types, and decode their values
+  static reviver(_key: any, value: any): any {
+    // Ignore non-objects (including arrays). Transform them on the next pass
+    if (typeof value !== "object" || Array.isArray(value)) {
+      return value;
+    }
+
+    let result: any = {};
+
+    Object.keys(value).forEach(key => {
+      let tagResult = key.match(/^(.*):([A-Za-z0-9\<]+[\>]*)$/);
+
+      if (tagResult === null) {
+        throw new Error(`failed to parse tag: ${key}`);
+      }
+
+      let untaggedKey = tagResult[1];
+      let tag = tagResult[2];
+      let childValue = value[key];
+
+      let type = TJSON.parseType(tag);
+      result[untaggedKey] = type.decode(childValue);
+    });
+
+    return result;
+  }
+
+  // Serializer for TJSON objects when building JSON strings
+  static replacer(_key: any, value: any): any {
+    // Ignore non-objects (including arrays). They'll already by transformed
+    // at this point (by the code below)
+    if (typeof value !== "object" || Array.isArray(value)) {
+      return value;
+    }
+
+    let result: any = {};
+
+    Object.keys(value).forEach(key => {
+      let childValue = value[key];
+      let type = TJSON.identifyType(childValue);
+
+      // Add tag to resulting field
+      result[key + ":" + type.tag()] = type.encode(childValue);
+    });
+
+    return result;
   }
 }

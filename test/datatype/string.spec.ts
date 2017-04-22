@@ -5,6 +5,6 @@ import { StringType } from "../../src/datatype/string";
 @suite class StringTypeTest {
   @test "parses strings"() {
     let exampleString = "Hello, world!";
-    expect((new StringType).convert(exampleString)).to.eq(exampleString);
+    expect((new StringType).decode(exampleString)).to.eq(exampleString);
   }
 }
