@@ -2,7 +2,7 @@ var gulp = require("gulp");
 var ts = require("gulp-typescript");
 var sourcemaps = require("gulp-sourcemaps");
 
-var tsProject = ts.createProject("tsconfig.json", {"module": "system", "outFile": "index.js"});
+var tsProject = ts.createProject("tsconfig.json", {"outFile": "index.js"});
 
 gulp.task("default", function() {
     var tsResult = gulp
