@@ -150,6 +150,22 @@ The table below shows how TJSON tags map to JavaScript types:
 [String]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type
 [Date]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 
+## Errata
+
+This is not (yet) a fully compliant TJSON parser. It contains the following
+defects, which can also be found in [tjson.spec.ts's skipped examples][errata]:
+
+* **64-bit integer range unsupported**: can't be supported in JavaScript until
+  the [TC39 Integer] type is available.
+* **Repeated JSON object member names tolerated**: the spec mandates that
+  the names of JSON object members must be unique. This implementation silently
+  ignores them.
+* **Set uniqueness not guaranteed**: the spec mandates that all members of sets
+  must be unique. Unfortunately JavaScript's `Set` type and equality semantics
+  allow members that are identical if compared by value.
+
+[errata]: https://github.com/tjson/tjson-js/blob/master/test/tjson.spec.ts#L8
+
 ## License
 
 Copyright (c) 2017 Tony Arcieri. Distributed under the MIT License. See
