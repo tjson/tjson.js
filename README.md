@@ -150,7 +150,7 @@ The table below shows how TJSON tags map to JavaScript types:
 [String]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type
 [Date]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 
-## Errata
+## TJSON Spec Deviations
 
 This is not (yet) a fully compliant TJSON parser. It contains the following
 defects, which can also be found in [tjson.spec.ts's skipped examples][errata]:
