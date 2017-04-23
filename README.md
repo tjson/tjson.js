@@ -47,7 +47,7 @@ Have questions? Want to suggest a feature or change?
 
 tjson-js is presently targeting <b>ES2017</b>. This is because we soon plan on
 making use of the [TC39 Integer] type when it becomes available, and want to
-make sure users of this library can handle modern ECMAScript revisions.
+make sure users of this library can handle modern ECMAScript versions.
 
 Please make sure your JS runtime is ES2017 compliant, or use a transpiler
 like [babel] support older versions of ECMAScript.
