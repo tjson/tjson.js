@@ -1,5 +1,5 @@
 import { NonScalarType } from "../datatype";
-import TJSON from "../../index";
+import TJSON from "../tjson";
 
 export class ObjectType extends NonScalarType {
   constructor() {

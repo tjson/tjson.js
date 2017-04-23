@@ -1,5 +1,5 @@
 import { DataType, NonScalarType } from "../datatype";
-import TJSON from "../../index";
+import TJSON from "../tjson";
 
 export class SetType extends NonScalarType {
   public static identifyType(set: Set<any>): DataType {

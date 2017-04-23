@@ -4,8 +4,8 @@
   "description": "Tagged JSON (TJSON): a JSON-based microformat with rich type annotations",
   "author": "Tony Arcieri <bascule@gmail.com>",
   "license": "MIT",
-  "main": "release/index.js",
-  "types": "index.ts",
+  "main": "release/tjson.js",
+  "types": "src/tjson.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/tjson/tjson-js"

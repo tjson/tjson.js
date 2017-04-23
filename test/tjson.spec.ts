@@ -1,7 +1,7 @@
 import { suite, test } from "mocha-typescript";
 import { expect } from "chai";
 import { Example, ExampleLoader } from "./example_loader";
-import TJSON from "../index";
+import TJSON from "../src/tjson";
 
 @suite class TJSONSpec {
   // Examples we don't decode correctly (i.e. due to JavaScript limitations)
