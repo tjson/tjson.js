@@ -1,5 +1,10 @@
 {
     "compilerOptions": {
+        // We plan to use TC39 Integers soon, so target an aggressively modern
+        // ECMAScript profile to ensure downstream library users are ready
+        //
+        // See: https://tc39.github.io/proposal-integer/
+        "target": "es2017",
         "module": "commonjs",
         "removeComments": false,
         "preserveConstEnums": true,
@@ -15,5 +20,8 @@
         "noUnusedParameters": true,
         "strictNullChecks": true,
         "newLine": "LF"
-    }
+    },
+    "files": [
+        "index.ts"
+    ]
 }
