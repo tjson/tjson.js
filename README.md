@@ -125,7 +125,7 @@ because they happen at the I/O boundary) pass `false`.
 
 ## Type Conversions
 
-TJSON types are converted to/from JavaScript types as follows:
+The table below shows how TJSON tags map to JavaScript types:
 
 | Tag | JavaScript Type | Notes                                         |
 |-----|-----------------|-----------------------------------------------|
