@@ -5,7 +5,7 @@
   "author": "Tony Arcieri <bascule@gmail.com>",
   "license": "MIT",
   "main": "release/index.js",
-  "types": "release/index.d.ts",
+  "types": "index.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/tjson/tjson-js"
@@ -32,7 +32,6 @@
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-typescript": "^3.1.6",
-    "merge2": "^1.0.3",
     "mocha": "^3.2.0",
     "mocha-typescript": "^1.0.23",
     "toml": "^2.3.2",
