@@ -41,12 +41,12 @@ import TJSON from "../index";
   static examples: Example[];
 
   static before() {
-    return new ExampleLoader().load((examples) => this.examples = examples);
+    return new ExampleLoader().load(examples => this.examples = examples);
   }
 
   @test "parsing draft-tjson-examples.txt"() {
     for (let example of TJSONSpec.examples) {
-      if (TJSONSpec.SKIPPED_DECODE_CASES.some((name) => example.name == name)) {
+      if (TJSONSpec.SKIPPED_DECODE_CASES.some(name => example.name == name)) {
         continue;
       }
 
@@ -60,11 +60,11 @@ import TJSON from "../index";
 
   @test "serializing draft-tjson-examples.txt"() {
     for (let example of TJSONSpec.examples) {
-      if (TJSONSpec.SKIPPED_DECODE_CASES.some((name) => example.name == name)) {
+      if (TJSONSpec.SKIPPED_DECODE_CASES.some(name => example.name == name)) {
         continue;
       }
 
-      if (TJSONSpec.SKIPPED_ENCODE_CASES.some((name) => example.name == name)) {
+      if (TJSONSpec.SKIPPED_ENCODE_CASES.some(name => example.name == name)) {
         continue;
       }
 
