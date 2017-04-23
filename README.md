@@ -127,16 +127,18 @@ because they happen at the I/O boundary) pass `false`.
 
 TJSON types are converted to/from JavaScript types as follows:
 
-* `O` => [Object]
-* `A` => [Array]
-* `S` => [Set]
-* `b` => [Boolean]
-* `d` => [Uint8Array]
-* `f` => [Number]
-* `i` => [Number] (NOTE: When available this will switch to the [TC39 Integer] type)
-* `u` => [Number] (NOTE: When available this will switch to the [TC39 Integer] type)
-* `s` => [String]
-* `t` => [Date]
+| Tag | JavaScript Type | Notes                                         |
+|-----|-----------------|-----------------------------------------------|
+| `O` | [Object]        |                                               |
+| `A` | [Array]         |                                               |
+| `S` | [Set]           |                                               |
+| `b` | [Boolean]       |                                               |
+| `d` | [Uint8Array]    |                                               |
+| `f` | [Number]        |                                               |
+| `i` | [Number]        | Will switch to [TC39 Integer] when available  |
+| `u` | [Number]        | Will switch to [TC39 Integer] when available  |
+| `s` | [String]        |                                               |
+| `t` | [Date]          |                                               |
 
 [Object]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Objects
 [Array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Indexed_collections_Arrays_and_typed_Arrays
