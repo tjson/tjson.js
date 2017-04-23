@@ -43,6 +43,17 @@ Have questions? Want to suggest a feature or change?
 [TJSON Google Group]: https://groups.google.com/forum/#!forum/tjson
 [tjson+subscribe@googlegroups.com]: mailto:tjson+subscribe@googlegroups.com
 
+## Requirements
+
+tjson-js is presently targeting <b>ES2017</b>. This is because we soon plan on
+making use of the [TC39 Integer] type when it becomes available, and want to
+make sure users of this library can handle modern ECMAScript revisions.
+
+Please make sure your JS runtime is ES2017 compliant, or use a transpiler
+like [babel] support older versions of ECMAScript.
+
+[babel]: https://babeljs.io/docs/plugins/preset-es2017/
+
 ## Installation
 
 Via [npm](https://www.npmjs.com/):
