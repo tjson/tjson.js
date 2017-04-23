@@ -10,9 +10,8 @@
 JavaScript-compatible implementation of [Tagged JSON (TJSON)][TJSON],
 written in TypeScript.
 
-[TJSON] is a microformat which supplements JSON with a set of type tags in the
-keys of objects, allowing it to represent a wider range of data types than
-is ordinarily possible in JSON:
+[TJSON] is a microformat which supplements JSON with an extended set of
+data types by supplying a type "tag" embedded in object member names:
 
 ```json
 {
