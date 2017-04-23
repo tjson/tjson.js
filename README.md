@@ -172,6 +172,10 @@ defects, which can also be found in [tjson.spec.ts's skipped examples][errata]:
 
 [errata]: https://github.com/tjson/tjson-js/blob/master/test/tjson.spec.ts#L8
 
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/tjson/tjson-js
+
 ## License
 
 Copyright (c) 2017 Tony Arcieri. Distributed under the MIT License. See
