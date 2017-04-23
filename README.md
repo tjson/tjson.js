@@ -132,9 +132,9 @@ TJSON types are converted to/from JavaScript types as follows:
 * `S` => [Set]
 * `b` => [Boolean]
 * `d` => [Uint8Array]
+* `f` => [Number]
 * `i` => [Number] (NOTE: When available this will switch to the [TC39 Integer] type)
 * `u` => [Number] (NOTE: When available this will switch to the [TC39 Integer] type)
-* `f` => [Number]
 * `s` => [String]
 * `t` => [Date]
 
