@@ -68,6 +68,12 @@ Via [Yarn](https://yarnpkg.com/):
 yarn install tjson-js
 ```
 
+Import TJSON into your project with:
+
+```js
+import TJSON from "tjson-js";
+```
+
 ## API
 
 ### TJSON.parse()
