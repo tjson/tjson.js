@@ -2,9 +2,10 @@
   "name": "tjson-js",
   "version": "0.0.0",
   "description": "Tagged JSON (TJSON): a JSON-based microformat with rich type annotations",
-  "main": "index.js",
   "author": "Tony Arcieri <bascule@gmail.com>",
   "license": "MIT",
+  "main": "release/index.js",
+  "types": "release/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/tjson/tjson-js"
@@ -25,10 +26,13 @@
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
-    "@types/es6-shim": "^0.31.32",
     "@types/mocha": "^2.2.40",
     "@types/utf8": "*",
     "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-typescript": "^3.1.6",
+    "merge2": "^1.0.3",
     "mocha": "^3.2.0",
     "mocha-typescript": "^1.0.23",
     "toml": "^2.3.2",
