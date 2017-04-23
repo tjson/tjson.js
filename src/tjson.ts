@@ -1,16 +1,16 @@
 // TJSON: Tagged JSON with Rich Types
 
 import * as utf8 from "utf8";
-import { DataType } from "./src/datatype";
-import { ArrayType } from "./src/datatype/array";
-import { SetType } from "./src/datatype/set";
-import { Binary16Type, Binary32Type, Binary64Type } from "./src/datatype/binary";
-import { BooleanType } from "./src/datatype/boolean";
-import { FloatType } from "./src/datatype/float";
-import { IntType, UintType } from "./src/datatype/integer";
-import { ObjectType } from "./src/datatype/object";
-import { StringType } from "./src/datatype/string";
-import { TimestampType } from "./src/datatype/timestamp";
+import { DataType } from "./datatype";
+import { ArrayType } from "./datatype/array";
+import { SetType } from "./datatype/set";
+import { Binary16Type, Binary32Type, Binary64Type } from "./datatype/binary";
+import { BooleanType } from "./datatype/boolean";
+import { FloatType } from "./datatype/float";
+import { IntType, UintType } from "./datatype/integer";
+import { ObjectType } from "./datatype/object";
+import { StringType } from "./datatype/string";
+import { TimestampType } from "./datatype/timestamp";
 
 DataType.register(new Binary16Type);
 DataType.register(new Binary32Type);

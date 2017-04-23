@@ -1,5 +1,5 @@
 import { DataType, NonScalarType } from "../datatype";
-import TJSON from "../../index";
+import TJSON from "../tjson";
 
 export class ArrayType extends NonScalarType {
   public static identifyType(array: any[]): DataType {
