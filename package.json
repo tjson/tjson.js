@@ -1,6 +1,6 @@
 {
   "name": "tjson-js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Tagged JSON (TJSON): a JSON-based microformat with rich type annotations",
   "author": "Tony Arcieri <bascule@gmail.com>",
   "license": "MIT",
