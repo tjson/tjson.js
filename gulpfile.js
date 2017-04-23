@@ -3,7 +3,7 @@ var ts = require("gulp-typescript");
 var sourcemaps = require("gulp-sourcemaps");
 var merge = require("merge2");
 
-var tsProject = ts.createProject("tsconfig.json", {declaration: true});
+var tsProject = ts.createProject("tsconfig.json");
 
 gulp.task("default", function() {
     var tsResult = gulp
