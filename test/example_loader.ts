@@ -9,11 +9,9 @@ export class ExampleLoader {
   // Delimiter used to separate examples
   static readonly EXAMPLES_DELIMITER = /^-----\s*\n/m;
 
-  uri: string;
-
-  constructor(uri = ExampleLoader.TJSON_EXAMPLES_URL) {
-    this.uri = uri;
-  }
+  constructor(
+    readonly uri = ExampleLoader.TJSON_EXAMPLES_URL
+  ) {}
 
   public async load(callback: (ex: Example[]) => void) {
     let response = await WebRequest.get(this.uri, { throwResponseError: true });
@@ -69,15 +67,10 @@ export class ExampleLoader {
 }
 
 export class Example {
-  name: string;
-  description: string;
-  success: boolean;
-  body: string;
-
-  constructor(name: string, description: string, success: boolean, body: string) {
-    this.name = name;
-    this.description = description;
-    this.success = success;
-    this.body = body;
-  }
+  constructor(
+    readonly name: string,
+    readonly description: string,
+    readonly success: boolean,
+    readonly body: string
+  ) {}
 }
