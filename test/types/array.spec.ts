@@ -1,11 +1,12 @@
 import { suite, test } from "mocha-typescript";
 import { expect } from "chai";
-import { DataType } from "../../src/datatype";
-import { ArrayType } from "../../src/datatype/array";
+
+import EncodingType from "../../src/encoding_type";
+import ArrayType from "../../src/types/array";
 
 @suite class ArrayTypeTest {
   @test "parses arrays"() {
-    let intType = DataType.get("i");
+    let intType = EncodingType.get("i");
     expect((new ArrayType(intType)).decode(["1", "2", "3"])).to.eql([1, 2, 3]);
   }
 }

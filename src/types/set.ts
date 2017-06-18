@@ -1,12 +1,13 @@
-import { DataType, NonScalarType } from "../datatype";
+import EncodingType from "../encoding_type";
+import NonScalarType from "../non_scalar_type";
 import TJSON from "../tjson";
 
-export class SetType extends NonScalarType {
-  public static identifyType(set: Set<any>): DataType {
-    let innerType: DataType | null = null;
+export default class SetType extends NonScalarType {
+  public static identifyType(set: Set<any>): EncodingType {
+    let innerType: EncodingType | null = null;
 
-    for (let elem of Array.from(set)) {
-      let t = TJSON.identifyType(elem);
+    for (const elem of Array.from(set)) {
+      const t = TJSON.identifyType(elem);
       if (innerType === null) {
         innerType = t;
       } else if (innerType.tag() !== t.tag()) {
@@ -17,11 +18,11 @@ export class SetType extends NonScalarType {
     return new SetType(innerType);
   }
 
-  constructor(innerType: DataType | null) {
+  constructor(innerType: EncodingType | null) {
     super(innerType);
   }
 
-  tag(): string {
+  public tag(): string {
     if (this.innerType === null) {
       return "S<>";
     } else {
@@ -29,7 +30,7 @@ export class SetType extends NonScalarType {
     }
   }
 
-  decode(array: any[]): object {
+  public decode(array: any[]): object {
     if (this.innerType === null) {
       if (array.length > 0) {
         throw new Error("no inner type specified for non-empty array");
@@ -38,13 +39,13 @@ export class SetType extends NonScalarType {
       }
     }
 
-    let elements = [];
+    const elements = [];
 
-    for (let elem of array) {
+    for (const elem of array) {
       elements.push(this.innerType.decode(elem));
     }
 
-    let set = new Set(elements);
+    const set = new Set(elements);
 
     if (elements.length !== set.size) {
       throw new Error("set contains duplicate items");
@@ -53,7 +54,7 @@ export class SetType extends NonScalarType {
     return set;
   }
 
-  encode(set: Set<any>): any[] {
+  public encode(set: Set<any>): any[] {
     return Array.from(set);
   }
 }
