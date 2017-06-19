@@ -1,6 +1,7 @@
 import { suite, test } from "mocha-typescript";
 import { expect } from "chai";
-import { BooleanType } from "../../src/datatype/boolean";
+
+import BooleanType from "../../src/types/boolean";
 
 @suite class BooleanValueTest {
   @test "passes through boolean values"() {

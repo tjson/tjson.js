@@ -1,6 +1,7 @@
 import { suite, test } from "mocha-typescript";
 import { expect } from "chai";
-import { ObjectType } from "../../src/datatype/object";
+
+import ObjectType from "../../src/types/object";
 
 @suite class ObjectTypeTest {
   @test "parses objects"() {

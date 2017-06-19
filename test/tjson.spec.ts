@@ -1,10 +1,11 @@
 import { suite, test } from "mocha-typescript";
 import { expect } from "chai";
+
 import { Example, ExampleLoader } from "./example_loader";
 import TJSON from "../src/tjson";
 
 @suite class TJSONSpec {
-  // Examples we don't decode correctly (i.e. due to JavaScript limitations)
+  /** Examples we don't decode correctly (i.e. due to JavaScript limitations) */
   static readonly SKIPPED_DECODE_CASES = [
     // JSON.parse ignores repeated member names
     // TODO: write our own JSON parser? o_O
@@ -15,14 +16,14 @@ import TJSON from "../src/tjson";
     "Invalid set of duplicate objects",
     "Invalid set containing duplicate arrays",
 
-    // Pending https://tc39.github.io/proposal-integer/
+    // Pending https://tc39.github.io/proposal-bigint/
     "Signed Integer Range Test",
     "Unsigned Integer Range Test"
   ];
 
-  // Examples we don't encode correctly (i.e. due to JavaScript limitations)
+  /** Examples we don't encode correctly (i.e. due to JavaScript limitations) */
   static readonly SKIPPED_ENCODE_CASES = [
-    // Pending https://tc39.github.io/proposal-integer/
+    // Pending https://tc39.github.io/proposal-bigint/
     "Array of integers",
     "Array of objects",
     "Multidimensional array of integers",

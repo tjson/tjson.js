@@ -1,6 +1,7 @@
 import { suite, test } from "mocha-typescript";
 import { expect } from "chai";
-import { TimestampType } from "../../src/datatype/timestamp";
+
+import TimestampType from "../../src/types/timestamp";
 
 @suite class TimestampTypeTest {
   @test "parses valid UTC RFC3339 timestamps"() {

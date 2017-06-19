@@ -1,34 +1,40 @@
 // TJSON: Tagged JSON with Rich Types
 
 import * as utf8 from "utf8";
-import { DataType } from "./datatype";
-import { ArrayType } from "./datatype/array";
-import { SetType } from "./datatype/set";
-import { Binary16Type, Binary32Type, Binary64Type } from "./datatype/binary";
-import { BooleanType } from "./datatype/boolean";
-import { FloatType } from "./datatype/float";
-import { IntType, UintType } from "./datatype/integer";
-import { ObjectType } from "./datatype/object";
-import { StringType } from "./datatype/string";
-import { TimestampType } from "./datatype/timestamp";
 
-DataType.register(new Binary16Type);
-DataType.register(new Binary32Type);
-DataType.register(new Binary64Type);
-DataType.register(new Binary64Type, "d64");
-DataType.register(new BooleanType);
-DataType.register(new FloatType);
-DataType.register(new IntType);
-DataType.register(new UintType);
-DataType.register(new ObjectType);
-DataType.register(new StringType);
-DataType.register(new TimestampType);
+import EncodingType from "./encoding_type";
 
+import ArrayType from "./types/array";
+import BooleanType from "./types/boolean";
+import Base16DataType from "./types/data/base16";
+import Base32DataType from "./types/data/base32";
+import Base64DataType from "./types/data/base64";
+import FloatType from "./types/float";
+import Int64Type from "./types/integer/int64";
+import Uint64Type from "./types/integer/uint64";
+import ObjectType from "./types/object";
+import SetType from "./types/set";
+import StringType from "./types/string";
+import TimestampType from "./types/timestamp";
+
+EncodingType.register(new Base16DataType());
+EncodingType.register(new Base32DataType());
+EncodingType.register(new Base64DataType());
+EncodingType.register(new Base64DataType(), "d64");
+EncodingType.register(new BooleanType());
+EncodingType.register(new FloatType());
+EncodingType.register(new Int64Type());
+EncodingType.register(new Uint64Type());
+EncodingType.register(new ObjectType());
+EncodingType.register(new StringType());
+EncodingType.register(new TimestampType());
+
+/** Main API for working with Tagged JSON (TJSON) */
 export default class TJSON {
-  // Parse a UTF-8 encoded TJSON string
+  /** Parse a UTF-8 encoded TJSON string */
   public static parse(tjsonString: string, decodeUTF8 = true) {
-    let decodedString = decodeUTF8 ? utf8.decode(tjsonString) : tjsonString;
-    let result = JSON.parse(decodedString, TJSON.reviver);
+    const decodedString = decodeUTF8 ? utf8.decode(tjsonString) : tjsonString;
+    const result = JSON.parse(decodedString, TJSON.reviver);
 
     if (Array.isArray(result)) {
       throw new Error("toplevel arrays are not allowed in TJSON");
@@ -37,41 +43,41 @@ export default class TJSON {
     return result;
   }
 
-  // Convert a value to TJSON
+  /** Convert a value to TJSON */
   public static stringify(value: any, space: number | string = 0, encodeUTF8 = true): string {
-    let result = JSON.stringify(value, TJSON.replacer, space);
+    const result = JSON.stringify(value, TJSON.replacer, space);
     return encodeUTF8 ? utf8.encode(result) : result;
   }
 
-  // Parse a TJSON type signature into the corresponding DataType object
-  public static parseType(tag: string): DataType {
+  /** Parse a TJSON type signature into the corresponding EncodingType object */
+  public static parseType(tag: string): EncodingType {
     // Object
-    if (tag == "O") {
-      return DataType.get("O");
+    if (tag === "O") {
+      return EncodingType.get("O");
     }
 
     // Non-Scalar
-    let result = tag.match(/^([A-Z][a-z0-9]*)<(.*)>$/);
+    const result = tag.match(/^([A-Z][a-z0-9]*)<(.*)>$/);
 
     if (result !== null) {
-      let prefix = result[1];
-      let inner = result[2];
+      const prefix = result[1];
+      const inner = result[2];
 
       switch (prefix) {
         case "A":
-          if (inner == "") {
+          if (inner === "") {
             return new ArrayType(null);
           } else {
             return new ArrayType(TJSON.parseType(inner));
           }
         case "S":
-          if (inner == "") {
+          if (inner === "") {
             return new SetType(null);
           } else {
             return new SetType(TJSON.parseType(inner));
           }
         case "O":
-          return DataType.get(tag);
+          return EncodingType.get(tag);
         default:
           throw new Error(`invalid non-scalar type: ${tag}`);
       }
@@ -79,77 +85,77 @@ export default class TJSON {
 
     // Scalar
     if (/^[a-z][a-z0-9]*$/.test(tag)) {
-      return DataType.get(tag);
+      return EncodingType.get(tag);
     } else {
       throw new Error(`invalid tag: "${tag}"`);
     }
   }
 
-  // Identify the TJSON DataType for a given value
-  public static identifyType(value: any): DataType {
+  /** Identify the TJSON EncodingType for a given value */
+  public static identifyType(value: any): EncodingType {
     if (typeof value === "object") {
       if (Array.isArray(value)) {
         return ArrayType.identifyType(value);
       } else if (value instanceof Uint8Array) {
-        return DataType.get("d");
+        return EncodingType.get("d");
       } else if (value instanceof Set) {
         return SetType.identifyType(value);
       } else if (value instanceof Date) {
-        return DataType.get("t");
+        return EncodingType.get("t");
       } else {
-        return DataType.get("O");
+        return EncodingType.get("O");
       }
     } else if (typeof value === "string") {
-      return DataType.get("s");
+      return EncodingType.get("s");
     } else if (typeof value === "number") {
-      return DataType.get("f");
+      return EncodingType.get("f");
     } else if (typeof value === "boolean") {
-      return DataType.get("b");
+      return EncodingType.get("b");
     } else {
       throw new Error(`unsupported TJSON value: ${value}`);
     }
   }
 
-  // Look for objects in parsed JSON, extract their types, and decode their values
-  static reviver(_key: any, value: any): any {
+  /** Look for objects in parsed JSON, extract their types, and decode their values */
+  public static reviver(_key: any, value: any): any {
     // Ignore non-objects (including arrays). Transform them on the next pass
     if (typeof value !== "object" || Array.isArray(value)) {
       return value;
     }
 
-    let result: any = {};
+    const result: any = {};
 
-    Object.keys(value).forEach(key => {
-      let tagResult = key.match(/^(.*):([A-Za-z0-9\<]+[\>]*)$/);
+    Object.keys(value).forEach((key) => {
+      const tagResult = key.match(/^(.*):([A-Za-z0-9\<]+[\>]*)$/);
 
       if (tagResult === null) {
         throw new Error(`failed to parse tag: ${key}`);
       }
 
-      let untaggedKey = tagResult[1];
-      let tag = tagResult[2];
-      let childValue = value[key];
+      const untaggedKey = tagResult[1];
+      const tag = tagResult[2];
+      const childValue = value[key];
 
-      let type = TJSON.parseType(tag);
+      const type = TJSON.parseType(tag);
       result[untaggedKey] = type.decode(childValue);
     });
 
     return result;
   }
 
-  // Serializer for TJSON objects when building JSON strings
-  static replacer(_key: any, value: any): any {
+  /** Serializer for TJSON objects when building JSON strings */
+  public static replacer(_key: any, value: any): any {
     // Ignore non-objects (including arrays). They'll already by transformed
     // at this point (by the code below)
     if (typeof value !== "object" || Array.isArray(value)) {
       return value;
     }
 
-    let result: any = {};
+    const result: any = {};
 
-    Object.keys(value).forEach(key => {
-      let childValue = value[key];
-      let type = TJSON.identifyType(childValue);
+    Object.keys(value).forEach((key) => {
+      const childValue = value[key];
+      const type = TJSON.identifyType(childValue);
 
       // Add tag to resulting field
       result[key + ":" + type.tag()] = type.encode(childValue);

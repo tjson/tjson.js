@@ -11,7 +11,7 @@ export class ExampleLoader {
 
   constructor(
     readonly uri = ExampleLoader.TJSON_EXAMPLES_URL
-  ) {}
+  ) { }
 
   public async load(callback: (ex: Example[]) => void) {
     let response = await WebRequest.get(this.uri, { throwResponseError: true });
@@ -72,5 +72,5 @@ export class Example {
     readonly description: string,
     readonly success: boolean,
     readonly body: string
-  ) {}
+  ) { }
 }
