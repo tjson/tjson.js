@@ -45,7 +45,7 @@ Have questions? Want to suggest a feature or change?
 ## Requirements
 
 tjson-js is presently targeting <b>ES2017</b>. This is because we soon plan on
-making use of the [TC39 Integer] type when it becomes available, and want to
+making use of the [TC39 BigInt] type when it becomes available, and want to
 make sure users of this library can handle modern ECMAScript versions.
 
 Please make sure your JS runtime is ES2017 compliant, or use a transpiler
@@ -140,8 +140,8 @@ The table below shows how TJSON tags map to JavaScript types:
 | `b` | [Boolean]       |                                               |
 | `d` | [Uint8Array]    |                                               |
 | `f` | [Number]        |                                               |
-| `i` | [Number]        | Will switch to [TC39 Integer] when available  |
-| `u` | [Number]        | Will switch to [TC39 Integer] when available  |
+| `i` | [Number]        | Will switch to [TC39 BigInt] when available  |
+| `u` | [Number]        | Will switch to [TC39 BigInt] when available  |
 | `s` | [String]        |                                               |
 | `t` | [Date]          |                                               |
 
@@ -151,7 +151,7 @@ The table below shows how TJSON tags map to JavaScript types:
 [Boolean]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Boolean_type
 [Uint8Array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array
 [Number]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#Number_type
-[TC39 Integer]: https://tc39.github.io/proposal-bigint/
+[TC39 BigInt]: https://tc39.github.io/proposal-bigint/
 [String]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type
 [Date]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
 
@@ -161,7 +161,7 @@ This is not (yet) a fully compliant TJSON parser. It contains the following
 defects, which can also be found in [tjson.spec.ts's skipped examples][errata]:
 
 * **64-bit integer range unsupported**: can't be supported in JavaScript until
-  the [TC39 Integer] type is available.
+  the [TC39 BigInt] type is available.
 * **Repeated JSON object member names tolerated**: the spec mandates that
   the names of JSON object members must be unique. This implementation silently
   ignores them.
