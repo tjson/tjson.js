@@ -36,7 +36,7 @@
     "mocha-typescript": "^1.0.23",
     "toml": "^2.3.2",
     "ts-node": "^8.3.0",
-    "typescript": "^2.2.1",
+    "typescript": "^3.6.2",
     "web-request": "^1.0.7"
   }
 }
