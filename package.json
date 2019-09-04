@@ -22,7 +22,7 @@
     "test": "mocha --compilers ts:ts-node/register --recursive"
   },
   "dependencies": {
-    "utf8": "^2.1.2"
+    "utf8": "^3.0.0"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
