@@ -25,7 +25,7 @@
     "utf8": "^3.0.0"
   },
   "devDependencies": {
-    "@types/chai": "^3.4.35",
+    "@types/chai": "^4.2.1",
     "@types/mocha": "^2.2.40",
     "@types/utf8": "*",
     "chai": "^4.2.0",
