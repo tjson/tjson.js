@@ -29,7 +29,7 @@
     "@types/mocha": "^2.2.40",
     "@types/utf8": "*",
     "chai": "^4.2.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-typescript": "^3.1.6",
     "mocha": "^3.2.0",
